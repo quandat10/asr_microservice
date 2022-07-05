@@ -1,0 +1,220 @@
+openapi: 3.0.1
+info:
+  title: Test album
+  description: Album service zeta
+  version: 1.0.0
+  contact:
+    name: khuye
+    email: khuye@zeta.com.vn
+externalDocs:
+  description: 'Last updated: Fri Jan 08 2021'
+  url: 'https://'
+servers:
+  - url: 'https://api.production.com'
+    description: production
+  - url: 'https://api.staging.com'
+    description: staging
+paths:
+  /albums:
+    post:
+      summary: Add a new album
+      description: ''
+      parameters: []
+      tags:
+        - ALBUM
+      requestBody:
+        content:
+          application/json:
+            example:
+              type: 0
+              title: nguoin 2
+              privacy: 3
+              avatar: ''
+              description: anh em may be hanh tinh ban
+            schema:
+              type: object
+              properties:
+                type:
+                  type: integer
+                title:
+                  type: string
+                privacy:
+                  type: integer
+                avatar:
+                  type: string
+                description:
+                  type: string
+              additionalProperties: false
+      responses:
+        '200':
+          description: Success
+          content:
+            text/json:
+              example:
+                success: true
+                message: Tạo album thành công
+                data:
+                  type: 0
+                  title: nguoin 2
+                  privacy: 3
+                  avatar: ''
+                  description: anh em may be hanh tinh ban
+                  user_id: 1
+                  id: '4085041644445466656'
+                  created_at: 1610104802166
+                  updated_at: 1610104802166
+                  status: 1
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: integer
+                      title:
+                        type: string
+                      privacy:
+                        type: integer
+                      avatar:
+                        type: string
+                      description:
+                        type: string
+                      user_id:
+                        type: integer
+                      id:
+                        type: string
+                      created_at:
+                        type: integer
+                      updated_at:
+                        type: integer
+                      status:
+                        type: integer
+                    additionalProperties: false
+                additionalProperties: false
+          headers:
+            content-type:
+              description: text/json
+              schema:
+                type: string
+  '/albums/{ALBUM_ID}':
+    get:
+      summary: Get album details
+      description: ''
+      parameters:
+        - in: path
+          name: ALBUM_ID
+          required: false
+          example: '${albumID}'
+          schema:
+            type: string
+        - in: query
+          name: name
+          required: true
+          example: 10
+          schema:
+            type: integer
+      tags:
+        - ALBUM
+      responses:
+        '200':
+          description: Success
+          content:
+            text/json:
+              example:
+                data:
+                  id: '4085041644445466656'
+                  type: 0
+                  user_id: 1
+                  title: nguoin 2
+                  privacy: 3
+                  status: 1
+                  avatar: ''
+                  description: anh em may be hanh tinh ban
+                  created_at: 1610104802166
+                  updated_at: 1610104802166
+                  avatar_thumb: ''
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      type:
+                        type: integer
+                      user_id:
+                        type: integer
+                      title:
+                        type: string
+                      privacy:
+                        type: integer
+                      status:
+                        type: integer
+                      avatar:
+                        type: string
+                      description:
+                        type: string
+                      created_at:
+                        type: integer
+                      updated_at:
+                        type: integer
+                      avatar_thumb:
+                        type: string
+                    additionalProperties: false
+                additionalProperties: false
+          headers:
+            content-type:
+              description: text/json
+              schema:
+                type: string
+  '/albums/${albumID}':
+    delete:
+      summary: Remove album
+      description: ''
+      parameters: []
+      tags:
+        - ALBUM
+      responses:
+        '200':
+          description: Success
+          content:
+            text/json:
+              example:
+                success: true
+                message: Xóa album thành công
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                additionalProperties: false
+          headers:
+            content-type:
+              description: text/json
+              schema:
+                type: string
+components:
+  schemas: {}
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    bypassAuth:
+      type: apiKey
+      name: keyHere
+      description: ...
+      in: header
+    bypassAuthHeader:
+      type: apiKey
+      name: valueHere
+      description: ...
+      in: headere these response headers

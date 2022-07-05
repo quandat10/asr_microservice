@@ -1,0 +1,1 @@
+docker run --rm -e URL=https://staging-api.zeta.vn/edge/v1.0/feed -v ./index.yaml:/test/index.yaml doanthuanthanh88/testapi6 /test/index.yaml

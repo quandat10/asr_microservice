@@ -1,0 +1,24 @@
+{
+    "UploadMapping": {
+        "zeta-image.s3-ap-southeast-1.amazonaws.com": "image-1.zeta.vn",
+        "zeta-video.s3-ap-southeast-1.amazonaws.com": "video-1.zeta.vn",
+        "zeta-image.s3.storage.com.vn": "image-2.zeta.vn",
+        "zeta-video.s3.storage.com.vn": "video-2.zeta.vn",
+        "zeta-image.s3south.storage.com.vn": "image-3.zeta.vn",
+        "zeta-video.s3south.storage.com.vn": "video-3.zeta.vn",
+        "zeta-files.s3south.storage.com.vn": "files-3.zeta.vn",
+        "zeta-image.statics.pancake.vn": "image-5.zeta.vn",
+        "zeta-video.statics.pancake.vn": "video-5.zeta.vn",
+        "zeta-files.statics.pancake.vn": "files-5.zeta.vn",
+        "zeta-files-1.statics.pancake.vn": "files-5a.zeta.vn",
+        "zeta-video-1.statics.pancake.vn": "video-5a.zeta.vn",
+        "zeta-image-1.statics.pancake.vn": "image-5a.zeta.vn"
+    },
+    "ThumbMapping": {
+        "image-1.zeta.vn": "cdn-thumb-image-1.zeta.vn",
+        "image-2.zeta.vn": "cdn-thumb-image-2.zeta.vn",
+        "image-3.zeta.vn": "cdn-thumb-image-3.zeta.vn",
+        "image-5.zeta.vn": "cdn-thumb-image-5.zeta.vn",
+        "image-5a.zeta.vn": "cdn-thumb-image-5a.zeta.vn"
+    }
+}

@@ -1,0 +1,21 @@
+title: User relation APIs
+version: 2.0.0
+endpoints:
+  - url: https://api.zeta.vn/album/v2.0
+    description: production
+  - url: https://staging-api.zeta.vn/album/v2.0
+    description: staging
+  - url: http://localhost:3000
+    description: development
+# debug: true
+style: test # doc, test, summary
+delayCall: 200
+vars:
+  # Variable
+  # url: https://api.zeta.vn/relation/v2.0
+  # url: https://staging-api.zeta.vn/relation/v2.0
+  url: http://localhost:3000
+
+  userB: 1855929824 # doanthuanthanh88
+  userA: 705742267 # 705742267 # thanh-test
+  userC: 1270930160 # Khuyen

@@ -1,0 +1,189 @@
+title: Test album
+description: Service zeta
+version: 1.0.0
+developer: khuye@zeta.com.vn
+servers:
+  production: https://api.production.com
+  staging: https://api.staging.com # '->' to get this to be environment. In this case variable "env" is "staging"
+# debug: true
+encryptPassword: zeta
+vars:
+  url: http://localhost:3000
+  # albumID: "4085015570263350811"
+templates:
+  - Get:
+      ->: base
+      baseURL: ${url}
+      headers:
+        x-zeta-role: user
+        x-zeta-user-id: 64
+  - Get:
+      <-: base
+      ->: dynamicUserID
+      vars:
+        userID:
+      headers:
+        x-zeta-user-id: ${userID}
+  - Post:
+      <-: dynamicUserID
+      ->: addPost
+      title: Add a new album
+      url: /albums
+      vars:
+        albumData:
+      docs: # Required to generate DOC
+        swagger:
+          tags:
+            - ALBUM
+      body: ${albumData}
+      var:
+        album: ${$.response.data.data}
+      validate:
+        - Status: 200
+
+  - Get:
+      <-: dynamicUserID
+      ->: getPost
+      title: Get album details
+      url: /albums/{ALBUM_ID}
+      params:
+        ALBUM_ID: ${albumID}
+      vars:
+        albumID:
+      query:
+        name*: 10
+      docs: # Required to generate DOC
+        swagger:
+          tags:
+            - ALBUM
+      validate:
+        - Status: 200
+        # - title: Validate data
+        #   func: match
+        #   args:
+        #     - ${album}
+        #     - ${rs}
+      #   - title: Validate schema
+      #     func: schema
+      #     args:
+      #       - ${rs}
+      #       - {
+      #           "type": "object",
+      #           "properties":
+      #             {
+      #               "data":
+      #                 {
+      #                   "type": "object",
+      #                   "properties":
+      #                     {
+      #                       "id": { "type": "string" },
+      #                       "type": { "type": "integer" },
+      #                       "user_id": { "type": "integer" },
+      #                       "title": { "type": "string" },
+      #                       "privacy": { "type": "integer" },
+      #                       "status": { "type": "integer" },
+      #                       "avatar": { "type": "string" },
+      #                       "description": { "type": "string" },
+      #                       "created_at": { "type": "integer" },
+      #                       "updated_at": { "type": "integer" },
+      #                       "avatar_thumb": { "type": "string" },
+      #                     },
+      #                   "additionalProperties": false,
+      #                 },
+      #             },
+      #           "additionalProperties": false,
+      #         }
+      # var: rs
+
+  - Delete:
+      <-: dynamicUserID
+      ->: delPost
+      title: Remove album
+      url: /albums/${albumID}
+      vars:
+        albumID:
+      docs: # Required to generate DOC
+        swagger:
+          tags:
+            - ALBUM
+      validate:
+        - Status: 200
+steps:
+  - Load:
+      file: data.json
+      var: arr
+  - Group:
+      loop: ${arr}
+      title: CURD album
+      description: =======================
+      vars:
+        userID: 1
+        # albumData:
+        #   {
+        #     "type": 0,
+        #     "title": "nguoin",
+        #     "privacy": 3,
+        #     "avatar": "",
+        #     "description": "anh em may be hanh tinh ban",
+        #   }
+      steps:
+        # - Echo: ${$$.loopValue.id}
+        - Vars:
+            albumData:
+              {
+                "type": 0,
+                "title": "nguoin ${$$.loopValue.id}",
+                "privacy": 3,
+                "avatar": "",
+                "description": "anh em may be hanh tinh ban",
+              }
+        - Post:
+            <-: addPost
+            debug: true
+            vars:
+              userID: ${$$.vars.userID}
+              albumData: ${albumData}
+            var:
+              album1: ${$.response.data.data}
+              albumID: ${$.response.data.data.id}
+        - Get:
+            <-: getPost
+            vars:
+              albumID: ${albumID}
+            var: album01
+        - Delete:
+            <-: delPost
+            vars:
+              userID: ${$$.vars.userID}
+              albumID: ${albumID}
+
+  # - EchoSchema: ${rs}
+  - Group:
+      title: Generate document
+      description: --------------------------------------
+      steps:
+        - DocSwagger:
+            saveTo: album.swagger.yaml # Swagger ouput file
+            headers: [] # Only expose these request headers
+            responseHeaders: ["content-type"] # Only expose these response headers
+            raw: # Overide OpenAPI properties
+              components:
+                securitySchemes:
+                  bearerAuth:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+                  bypassAuth:
+                    type: apiKey
+                    name: keyHere
+                    description: ...
+                    in: header
+                  bypassAuthHeader:
+                    type: apiKey
+                    name: valueHere
+                    description: ...
+                    in: headere these response headers
+        - DocMarkdown:
+            saveTo: album.md # Markdown ouput file
+            headers: [] # Only expose these request headers
+            responseHeaders: ["content-type"] # Only expose these response headers
